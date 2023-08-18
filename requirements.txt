@@ -1,0 +1,6 @@
+numpy
+pandas
+matplotlib==3.4.2
+spacy
+transformers
+bert-extractive-summarizer
