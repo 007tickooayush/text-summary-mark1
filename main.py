@@ -14,14 +14,38 @@ app.add_middleware(
     allow_methods=['GET','POST']
 )
 
+# initialize the summarizer object
+summary = Summary()
 
 @app.get("/")
 def default_path():
     return {'message':'default homepage/landing page'}
 
+# @app.get('/init')
+# def init_summarizer():
+#     try:
+#         summary = Summary()
+#         return summary
+#     except Exception as e:
+#         return {
+#             'data': f'Error: {e}'
+#         }
+
 @app.post('/content')
-def get_summary(data:Content):
-    d = data.dict()
-    summary = Summary()
-    summary_gen_text = summary.create__summary(content=d.content,min_length=d.min_length)
-    return summary_gen_text
+def getSummary(data:Content):
+    try:
+        d = data.dict()
+        # summary = Summary()
+        summary_gen_text = summary.create__summary(d['content'],d['min_length'])
+        
+        return {
+            'data':{
+                'summary': summary_gen_text
+            },
+            'status' : 200
+        }
+    except Exception as e:
+        return {
+            'data' : f'Error: {e}'
+        }
+
